@@ -1,0 +1,27 @@
+tasks:
+  - name: mct | user | Create mct
+    user: name=mct comment="McGill Cycling Team"
+          group=mct system=True
+          append=yes generate_ssh_key=yes
+
+  - name: mct | user | authorised keys
+    copy: src=home/mct/ssh/authorized_keys
+          dest=home/mct/ssh/authorized_keys 
+          mode=600
+    user: mct
+
+  - name: mct | user | home folder permissions
+    file: dest=/home/mct mode=755 type=directory
+    user: mct
+
+  - name: mct | user | dotfiles
+    git: repo=https://github.com/odontomachus/dotfiles.git
+         dest=dotfiles version=linode
+    user: mct
+
+  - name: mct | user | install dotfiles
+    file: type=link src=dotfiles/$item dest=$item
+    with_items:
+      - emacs
+      - bashrc
+    user: mct

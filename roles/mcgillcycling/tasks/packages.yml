@@ -1,0 +1,17 @@
+tasks:
+  - name: Packages | Install
+    apt: name=$item state=present install_recommends=no
+    with_items:
+      # drupal
+      - php5
+      - php5-apc
+      - php5-cgi
+      - php5-cli
+      - php5-curl
+      - php5-dev
+      - php5-fpm
+      - php5-gd
+      - php5-imagemagick
+      - php5-mysql
+      - php5-xml
+      - php-pear

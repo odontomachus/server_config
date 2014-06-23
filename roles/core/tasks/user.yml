@@ -1,0 +1,27 @@
+tasks:
+  - name: User | Create Jonathan
+    user: name="jonathan" comment="Jonathan Villemaire-Krajden"
+          group="jonathan" groups="admin,www-data,web,mct" 
+          append=yes generate_ssh_key=yes
+
+  - name: User | jonathan: authorised keys
+    copy: src=home/jonathan/ssh/authorized_keys
+          dest=home/jonathan/ssh/authorized_keys 
+          mode=600
+    user: jonathan
+
+  - name: User | jonathan: projects folder
+    file: dest=projects
+    user: jonathan
+
+  - name: User | jonathan: dotfiles
+    git: repo=ssh://git@github.com:odontomachus/dotfiles.git
+         dest=projects/dotfiles version=linode
+    user: jonathan
+
+  - name: User | jonathan: install dotfiles
+    file: type=link src=projects/dotfiles/$item dest=$item
+    with_items:
+      - emacs
+      - bashrc
+    user: jonathan

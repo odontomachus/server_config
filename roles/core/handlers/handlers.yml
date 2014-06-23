@@ -1,0 +1,7 @@
+handlers:
+  - name: Service | Restart nginx
+    service: name=nginx state=restarted
+
+  - name: Service | Restart sshd
+    service: name=sshd state=restarted
+

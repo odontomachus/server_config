@@ -1,0 +1,4 @@
+tasks:
+  - name: Services | php5-fpm
+    service: name=php5-fpm state=enabled
+
