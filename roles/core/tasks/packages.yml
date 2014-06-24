@@ -1,39 +1,46 @@
-tasks:
-  - name: Packages | Updates
-    apt: update_cache=yes upgrade=safe cache_valid_time=3600
+- name: Packages | Updates
+  tags:
+    - phase1
+    - packages
+    - update
+  apt: update_cache=yes upgrade=safe cache_valid_time=3600
 
-  - name: Packages | Install
-    apt: name=$item state=present install_recommends=no
-    with_items:
-      # web
-      - libzmq
-      - libzmq-dev
-      - mariadb-client
-      - mariadb-server
-      - mysql-client
-      - mysqltuner
-      - nginx
-      - postgresql
-      # dev
-      - emacs-goodies-el
-      - gcc
-      - git
-      - mercurial
-      - python3
-      - python3-dev
-      - python-dev
-      - python-mode
-      - python-mysqldb
-      - python-virtualenv
-      - yaml-mode
-      # system
-      - denyhosts
-      - emacs23-nox
-      - htop
-      - ifstat
-      - iftop
-      - iotop
-      - iptraf
-      - psgml
-      - sysstat
-      - vnstat
+- name: Packages | Install
+  tags:
+    - phase1
+    - packages
+    - update
+  apt: name={{ item }} state=present install_recommends=no
+  with_items:
+    # web
+    - libzmq
+    - libzmq-dev
+    - mariadb-client
+    - mariadb-server
+    - mysql-client
+    - mysqltuner
+    - nginx
+    - postgresql
+    # dev
+    - emacs-goodies-el
+    - gcc
+    - git
+    - mercurial
+    - python3
+    - python3-dev
+    - python-dev
+    - python-mode
+    - python-mysqldb
+    - python-virtualenv
+    - yaml-mode
+    # system
+    - denyhosts
+    - emacs23-nox
+    - htop
+    - ifstat
+    - iftop
+    - iotop
+    - iptraf
+    - psgml
+    - sysstat
+    - vnstat

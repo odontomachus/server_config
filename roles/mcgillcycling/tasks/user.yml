@@ -1,26 +1,36 @@
 tasks:
   - name: mct | user | Create mct
+    tags:
+      - phase1
     user: name=mct comment="McGill Cycling Team"
           group=mct system=True
           append=yes generate_ssh_key=yes
 
   - name: mct | user | authorised keys
+    tags:
+      - phase1
     copy: src=home/mct/ssh/authorized_keys
           dest=home/mct/ssh/authorized_keys 
           mode=600
     user: mct
 
   - name: mct | user | home folder permissions
+    tags:
+      - phase1
     file: dest=/home/mct mode=755 type=directory
     user: mct
 
   - name: mct | user | dotfiles
+    tags:
+      - phase1
     git: repo=https://github.com/odontomachus/dotfiles.git
          dest=dotfiles version=linode
     user: mct
 
   - name: mct | user | install dotfiles
-    file: type=link src=dotfiles/$item dest=$item
+    tags:
+      - phase1
+    file: type=link src=dotfiles/{{ item }} dest={{ item }}
     with_items:
       - emacs
       - bashrc

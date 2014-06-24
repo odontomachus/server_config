@@ -1,6 +1,9 @@
 tasks:
   - name: Packages | Install
-    apt: name=$item state=present install_recommends=no
+    tags:
+      - packages
+      - phase1
+    apt: name={{ item }} state=present install_recommends=no
     with_items:
       # drupal
       - php5

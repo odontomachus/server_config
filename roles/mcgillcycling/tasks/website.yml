@@ -1,18 +1,26 @@
 tasks:
   - name: mct | website | public_html folder
+    tags:
+      - phase1
     file: dest=/home/mct/public_html mode=755 type=directory
     user: mct
 
   - name: mct | website | mcgillcycling code
+    tags:
+      - phase2
     git: repo=git@bitbucket.org:jonvk/mcgillcycling.git
          dest=/home/mct/mcgillcycling version=2013-05-28
     user: mct
 
   - name: mct | website | mcgillcycling .../files permissions
+    tags:
+      - phase2
     file: type=file src=/home/mct/mcgillcycling/site/sites/default/files group:www-data mode=775
     user: mct
 
   - name: mct | website | mcgillcycling symlink
+    tags:
+      - phase2
     file: type=link src=/home/mct/mcgillcycling/site dest=/home/mct/public_html/
     user: mct
 

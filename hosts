@@ -1,1 +1,2 @@
-localhost ansible_connection=local
+[linode]
+2.j-vk.com

@@ -1,3 +1,24 @@
-  - name: System | sshd config
-    copy: src=etc/ssh/sshd_config dest=/etc/ssh/sshd_config 
-    notify: restart sshd
+- name: System | root accepted keys
+  tags:
+    - system
+    - phase1
+  copy: src=roles/core/files/root/ssh/authorized_keys dest=/root/.ssh/authorized_keys
+          owner=root group=root mode=0600 
+
+- name: System | sshd config
+  tags:
+    - system
+    - phase1
+  copy: src=etc/ssh/sshd_config dest=/etc/ssh/sshd_config 
+  notify: restart ssh
+      
+- name: System | locales
+  tags:
+    - system
+    - phase1
+  locale_gen: name={{ item }} state=present
+  with_items:
+    - en_US.UTF-8
+    - en_CA.UTF-8
+    - fr_CA.UTF-8
+
