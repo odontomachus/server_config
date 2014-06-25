@@ -1,37 +1,42 @@
-tasks:
-  - name: User | Create Jonathan
-    tags:
-      - phase1
-    user: name="jonathan" comment="Jonathan Villemaire-Krajden"
-          group="jonathan" groups="admin,www-data,web,mct" 
-          append=yes generate_ssh_key=yes
+- name: User | Create jonathan
+  tags:
+    - phase1
+  user: name="jonathan" comment="Jonathan Villemaire-Krajden"
+        group="jonathan" groups="admin,www-data,web,mct" 
+        append=yes generate_ssh_key=yes
 
-  - name: User | jonathan: authorised keys
-    tags:
-      - phase1
-    copy: src=home/jonathan/ssh/authorized_keys
-          dest=home/jonathan/ssh/authorized_keys 
-          mode=600
-    user: jonathan
+- name: User | jonathan | authorised keys
+  tags:
+    - phase1
+  copy: src=home/jonathan/ssh/authorized_keys
+        dest=home/jonathan/ssh/authorized_keys 
+        mode=600
+  sudo_user: jonathan
 
-  - name: User | jonathan: projects folder
-    tags:
-      - phase1
-    file: dest=projects
-    user: jonathan
+- name: User | jonathan | projects folder
+  tags:
+    - phase1
+  file: dest=projects state=directory
+  sudo_user: jonathan
 
-  - name: User | jonathan: dotfiles
-    tags:
-      - phase2
-    git: repo=ssh://git@github.com:odontomachus/dotfiles.git
-         dest=projects/dotfiles version=linode
-    user: jonathan
+- name: User | jonathan | virtualenv folder
+  tags:
+    - phase1
+  file: dest=/home/jonathan/virtualenv mode=700 state=directory
+  sudo_user: jvk
 
-  - name: User | jonathan: install dotfiles
-    tags:
-      - phase2
-    file: type=link src=projects/dotfiles/{{ item }} dest={{ item }}
-    with_items:
-      - emacs
-      - bashrc
-    user: jonathan
+- name: User | jonathan | dotfiles
+  tags:
+    - phase2
+  git: repo=ssh://git@github.com:odontomachus/dotfiles.git
+       dest=projects/dotfiles version=linode
+  sudo_user: jonathan
+
+- name: User | jonathan | install dotfiles
+  tags:
+    - phase2
+  file: type=link src=projects/dotfiles/{{ item }} dest={{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  sudo_user: jonathan

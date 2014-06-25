@@ -1,6 +1,5 @@
 ---
 
-tasks:
-  - include: system.yml
-  - include: packages.yml
-  - include: user.yml
+- include: system.yml
+- include: packages.yml
+- include: user.yml

@@ -13,11 +13,11 @@
   apt: name={{ item }} state=present install_recommends=no
   with_items:
     # web
-    - libzmq
     - libzmq-dev
     - mariadb-client
     - mariadb-server
-    - mysql-client
+    - mariadb-server-5.5
+    - mariadb-client-5.5
     - mysqltuner
     - nginx
     - postgresql
@@ -34,7 +34,7 @@
     - python-virtualenv
     - yaml-mode
     # system
-    - denyhosts
+    - fail2ban
     - emacs23-nox
     - htop
     - ifstat

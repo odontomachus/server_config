@@ -4,6 +4,7 @@
 
   roles:
     - core
-    - mcgillcycing
+    - mcgillcycling
     - j-vk
     - python-sites
+    - file-server

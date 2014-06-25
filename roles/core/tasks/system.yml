@@ -22,3 +22,9 @@
     - en_CA.UTF-8
     - fr_CA.UTF-8
 
+- name: mct | user | dotfiles
+  tags:
+    - phase1
+  git: repo=https://github.com/odontomachus/dotfiles.git
+       dest=/usr/local/lib/dotfiles version=linode
+  sudo_user: mct

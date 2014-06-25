@@ -1,0 +1,43 @@
+---
+- name: jvk | user | Create jvk
+  tags:
+    - phase1
+  user: name=jvk comment="j-vk.com"
+        group=jvk system=True
+        append=yes generate_ssh_key=yes
+
+- name: jvk | user | authorised keys
+  tags:
+    - phase1
+  copy: src=home/jvk/ssh/authorized_keys
+        dest=home/jvk/ssh/authorized_keys 
+        mode=600
+  sudo_user: jvk
+
+- name: jvk | user | home folder permissions
+  tags:
+    - phase1
+  file: dest=/home/jvk mode=755 state=directory
+  sudo_user: jvk
+
+- name: jvk | user | virtualenv folder
+  tags:
+    - phase1
+  file: dest=/home/jvk/virtualenv mode=770 state=directory
+  sudo_user: jvk
+
+- name: jvk | user | install dotfiles
+  tags:
+    - phase1
+  file: type=link src=/usr/local/lib/dotfiles/{{ item }} dest={{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  sudo_user: jvk
+
+- name: jvk | website src
+  tags:
+    - phase2
+  git: repo=git@bitbucket.org:jonvk/jvk.git
+       dest=jvk version=stable
+  sudo_user: jvk
