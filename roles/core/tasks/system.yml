@@ -22,9 +22,21 @@
     - en_CA.UTF-8
     - fr_CA.UTF-8
 
-- name: mct | user | dotfiles
+- name: System | download dotfiles
   tags:
     - phase1
   git: repo=https://github.com/odontomachus/dotfiles.git
        dest=/usr/local/lib/dotfiles version=linode
-  sudo_user: mct
+
+- name: System | install root dotfiles
+  tags:
+    - phase1
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=/root/.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+
+- name: System | admin group
+  tags:
+    - phase1
+  group: name=admin

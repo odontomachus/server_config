@@ -20,6 +20,6 @@
 - name: mct | website | mcgillcycling symlink
   tags:
     - phase2
-  file: type=link src=/home/mct/mcgillcycling/site dest=/home/mct/public_html/
+  file: state=link src=/home/mct/mcgillcycling/site dest=/home/mct/public_html/
   sudo_user: mct
 

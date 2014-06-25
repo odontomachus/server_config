@@ -2,28 +2,27 @@
   tags:
     - phase1
   user: name=mct comment="McGill Cycling Team"
-        group=mct system=True
+        system=True shell=/bin/bash
         append=yes generate_ssh_key=yes
-
-- name: mct | user | authorised keys
-  tags:
-    - phase1
-  copy: src=home/mct/ssh/authorized_keys
-        dest=home/mct/ssh/authorized_keys 
-        mode=600
-  sudo_user: mct
 
 - name: mct | user | home folder permissions
   tags:
     - phase1
   file: dest=/home/mct mode=755 state=directory
+
+- name: mct | user | remove default bashrc
+  tags:
+    - phase1
+  file: state=absent path=.bashrc
+  sudo: True
   sudo_user: mct
 
 - name: mct | user | install dotfiles
   tags:
     - phase1
-  file: type=link src=/usr/local/lib/dotfiles/{{ item }} dest={{ item }}
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
   with_items:
     - emacs
     - bashrc
+  sudo: True
   sudo_user: mct

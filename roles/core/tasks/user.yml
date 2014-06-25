@@ -2,41 +2,53 @@
   tags:
     - phase1
   user: name="jonathan" comment="Jonathan Villemaire-Krajden"
-        group="jonathan" groups="admin,www-data,web,mct" 
+        groups="admin,www-data" shell=/bin/bash
         append=yes generate_ssh_key=yes
 
 - name: User | jonathan | authorised keys
   tags:
     - phase1
   copy: src=home/jonathan/ssh/authorized_keys
-        dest=home/jonathan/ssh/authorized_keys 
+        dest=.ssh/authorized_keys 
         mode=600
+  sudo: True
   sudo_user: jonathan
 
 - name: User | jonathan | projects folder
   tags:
     - phase1
   file: dest=projects state=directory
+  sudo: True
   sudo_user: jonathan
 
 - name: User | jonathan | virtualenv folder
   tags:
     - phase1
-  file: dest=/home/jonathan/virtualenv mode=700 state=directory
-  sudo_user: jvk
+  file: dest=virtualenv mode=700 state=directory
+  sudo: True
+  sudo_user: jonathan
 
 - name: User | jonathan | dotfiles
   tags:
     - phase2
-  git: repo=ssh://git@github.com:odontomachus/dotfiles.git
+  git: repo=https://github.com/odontomachus/dotfiles.git
        dest=projects/dotfiles version=linode
+  sudo: True
+  sudo_user: jonathan
+
+- name: jvk | user | remove default bashrc
+  tags:
+    - phase1
+  file: state=absent path=.bashrc
+  sudo: True
   sudo_user: jonathan
 
 - name: User | jonathan | install dotfiles
   tags:
     - phase2
-  file: type=link src=projects/dotfiles/{{ item }} dest={{ item }}
+  file: state=link src=projects/dotfiles/{{ item }} dest=.{{ item }}
   with_items:
     - emacs
     - bashrc
+  sudo: True
   sudo_user: jonathan

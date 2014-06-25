@@ -6,14 +6,18 @@
   with_items:
     # drupal
     - php5
-    - php5-apc
+    - php5-apcu
     - php5-cgi
     - php5-cli
     - php5-curl
     - php5-dev
     - php5-fpm
     - php5-gd
-    - php5-imagemagick
     - php5-mysql
-    - php5-xml
     - php-pear
+
+- name: Packages | run php-fpm
+  service: name=php5-fpm state=started
+
+# @TODO configure php5-fpm
+# @TODO configure php5-apcu
