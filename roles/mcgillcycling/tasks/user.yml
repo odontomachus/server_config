@@ -10,10 +10,34 @@
     - phase1
   file: dest=/home/mct mode=755 state=directory
 
+- name: mct | user | install dotfiles
+  tags:
+    - phase2
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  register: result
+  sudo: True
+  sudo_user: mct
+
+# catch original bashrc and remove it
 - name: mct | user | remove default bashrc
   tags:
-    - phase1
+    - phase2
   file: state=absent path=.bashrc
+  when: result|failed
+  sudo: True
+  sudo_user: mct
+
+- name: mct | user | install dotfiles
+  tags:
+    - phase2
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  when: result|failed
   sudo: True
   sudo_user: mct
 

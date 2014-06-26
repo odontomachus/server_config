@@ -1,25 +1,27 @@
 - name: mct | website | public_html folder
   tags:
     - phase1
-  file: dest=/home/mct/public_html mode=755 state=directory
+  file: dest=public_html mode=755 state=directory
+  sudo: True
   sudo_user: mct
 
 - name: mct | website | mcgillcycling code
   tags:
     - phase2
   git: repo=git@bitbucket.org:jonvk/mcgillcycling.git
-       dest=/home/mct/mcgillcycling version=2013-05-28
+       dest=mcgillcycling version=2013-05-28
+  sudo: True
   sudo_user: mct
 
 - name: mct | website | mcgillcycling site/.../files permissions
   tags:
     - phase2
-  file: type=file src=/home/mct/mcgillcycling/site/sites/default/files group:www-data mode=775
-  sudo_user: mct
+  file: state=directory path=mcgillcycling/site/sites/default/files owner=mct group=www-data mode=775 recurse=True
 
 - name: mct | website | mcgillcycling symlink
   tags:
     - phase2
-  file: state=link src=/home/mct/mcgillcycling/site dest=/home/mct/public_html/
+  file: state=link src=/home/mct/mcgillcycling/site dest=public_html/mcgillcycling
+  sudo: True
   sudo_user: mct
 

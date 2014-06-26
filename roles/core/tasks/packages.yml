@@ -35,7 +35,7 @@
     - yaml-mode
     # system
     - fail2ban
-    - emacs23-nox
+    - emacs24-nox
     - htop
     - ifstat
     - iftop
@@ -44,3 +44,18 @@
     - psgml
     - sysstat
     - vnstat
+
+- name: Packages | mysql conf
+  tags:
+    - phase1
+    - packages
+  copy: src=etc/mysql/my.cnf dest=/etc/mysql/my.cnf
+  notify: restart mysql
+
+- name: Package | remove nginx default
+  tags:
+    - phase1
+    - packages
+  file: state=absent path=/etc/nginx/sites-enabled/default
+  notify: restart nginx
+

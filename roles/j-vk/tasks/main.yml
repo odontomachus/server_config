@@ -18,13 +18,6 @@
   sudo: True
   sudo_user: jvk
 
-- name: jvk | user | remove default bashrc
-  tags:
-    - phase1
-  file: state=absent path=.bashrc
-  sudo: True
-  sudo_user: jvk
-
 - name: jvk | user | install dotfiles
   tags:
     - phase1
@@ -32,8 +25,30 @@
   with_items:
     - emacs
     - bashrc
+  register: result
   sudo: True
   sudo_user: jvk
+
+# catch original bashrc and remove it
+- name: jvk | user | remove default bashrc
+  tags:
+    - phase2
+  file: state=absent path=.bashrc
+  when: result|failed
+  sudo: True
+  sudo_user: jvk
+
+- name: jvk | user | install dotfiles
+  tags:
+    - phase2
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  when: result|failed
+  sudo: True
+  sudo_user: jvk
+
 
 - name: jvk | website src
   tags:

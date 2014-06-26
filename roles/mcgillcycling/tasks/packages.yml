@@ -19,5 +19,27 @@
 - name: Packages | run php-fpm
   service: name=php5-fpm state=started
 
-# @TODO configure php5-fpm
-# @TODO configure php5-apcu
+- name: Packages | php conf
+  tags:
+    - phase1
+    - packages
+  copy: src=etc/php5/fpm/{{ item }} dest=/etc/php5/fpm/{{ item }}
+  with_items:
+    - php-fpm.conf
+    - php.ini
+    - pool.d/www.conf
+  notify: restart php-fpm
+
+- name: Package | nginx mcgillcycling config
+  tags:
+    - phase1
+    - packages
+  copy: src=etc/nginx/sites-available/mcgillcycling dest=/etc/nginx/sites-available/mcgillcycling
+  notify: restart nginx
+
+- name: Package | nginx enable mcgillcycling
+  tags:
+    - phase1
+    - packages
+  file: state=link src=/etc/nginx/sites-available/mcgillcycling dest=/etc/nginx/sites-enabled/mcgillcycling
+  notify: restart nginx

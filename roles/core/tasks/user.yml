@@ -36,10 +36,23 @@
   sudo: True
   sudo_user: jonathan
 
-- name: jvk | user | remove default bashrc
+- name: User | jonathan | install dotfiles
   tags:
-    - phase1
+    - phase2
+  file: state=link src=projects/dotfiles/{{ item }} dest=.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  register: result
+  sudo: True
+  sudo_user: jonathan
+
+# catch original bashrc and remove it
+- name: User | jonathan | remove default bashrc
+  tags:
+    - phase2
   file: state=absent path=.bashrc
+  when: result|failed
   sudo: True
   sudo_user: jonathan
 
@@ -50,5 +63,6 @@
   with_items:
     - emacs
     - bashrc
+  when: result|failed
   sudo: True
   sudo_user: jonathan
