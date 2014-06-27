@@ -8,8 +8,9 @@
 - name: mct | website | mcgillcycling code
   tags:
     - phase2
+    - mct
   git: repo=git@bitbucket.org:jonvk/mcgillcycling.git
-       dest=mcgillcycling version=2013-05-28
+       dest=mcgillcycling version=prod-2014-06-25-2
   sudo: True
   sudo_user: mct
 

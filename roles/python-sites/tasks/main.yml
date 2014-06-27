@@ -1,0 +1,49 @@
+- name:  main | pys
+  user: name=pys system=true shell=/bin/bash generate_ssh_key=true
+
+- name:  main | home permissions
+  file: state=directory name=/home/pys mode=0775 group=jonathan
+
+- name:  main | public_html directory
+  file: state=directory name=/home/pys/public_html mode=0775 group=jonathan
+
+- name:  main | projects directory
+  file: state=directory name=/home/pys/projects mode=0775 group=jonathan
+
+- name: main | virtualenv directory
+  tags:
+    - phase1
+  file: state=directory dest=/home/pys/virtualenv
+        mode=770 group=jonathan owner=pys
+
+- name:  main | install dotfiles
+  tags:
+    - phase2
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  register: result
+  ignore_errors: True
+  sudo: True
+  sudo_user: pys
+
+# catch original bashrc and remove it
+- name:  main | remove default bashrc
+  tags:
+    - phase2
+  file: state=absent path=.bashrc
+  when: result|failed
+  sudo: True
+  sudo_user: pys
+
+- name:  main | install dotfiles
+  tags:
+    - phase2
+  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
+  with_items:
+    - emacs
+    - bashrc
+  when: result|failed
+  sudo: True
+  sudo_user: pys

@@ -14,7 +14,7 @@
 - name: jvk | user | virtualenv folder
   tags:
     - phase1
-  file: dest=/home/jvk/virtualenv mode=770 state=directory
+  file: state=directory dest=virtualenv mode=770
   sudo: True
   sudo_user: jvk
 
@@ -26,6 +26,7 @@
     - emacs
     - bashrc
   register: result
+  ignore_errors: True
   sudo: True
   sudo_user: jvk
 
@@ -49,11 +50,11 @@
   sudo: True
   sudo_user: jvk
 
-
 - name: jvk | website src
   tags:
     - phase2
   git: repo=git@bitbucket.org:jonvk/jvk.git
-       dest=jvk version=stable
+       dest=jvk
+       #version=stable
   sudo: True
   sudo_user: jvk

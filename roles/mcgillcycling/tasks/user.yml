@@ -18,6 +18,7 @@
     - emacs
     - bashrc
   register: result
+  ignore_errors: True
   sudo: True
   sudo_user: mct
 
@@ -38,15 +39,5 @@
     - emacs
     - bashrc
   when: result|failed
-  sudo: True
-  sudo_user: mct
-
-- name: mct | user | install dotfiles
-  tags:
-    - phase1
-  file: state=link src=/usr/local/lib/dotfiles/{{ item }} dest=.{{ item }}
-  with_items:
-    - emacs
-    - bashrc
   sudo: True
   sudo_user: mct

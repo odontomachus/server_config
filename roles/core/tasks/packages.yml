@@ -13,6 +13,7 @@
   apt: name={{ item }} state=present install_recommends=no
   with_items:
     # web
+    - libmariadbclient-dev
     - libzmq-dev
     - mariadb-client
     - mariadb-server
@@ -34,6 +35,7 @@
     - python-virtualenv
     - yaml-mode
     # system
+    - apt-file
     - fail2ban
     - emacs24-nox
     - htop

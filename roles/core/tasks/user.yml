@@ -44,6 +44,7 @@
     - emacs
     - bashrc
   register: result
+  ignore_errors: True
   sudo: True
   sudo_user: jonathan
 
