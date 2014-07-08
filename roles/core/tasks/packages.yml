@@ -14,6 +14,8 @@
   with_items:
     # web
     - libmariadbclient-dev
+    - libxml2-dev
+    - libxslt1-dev
     - libzmq-dev
     - mariadb-client
     - mariadb-server
@@ -22,6 +24,7 @@
     - mysqltuner
     - nginx
     - postgresql
+    - postgresql-server-dev-9.3
     # dev
     - emacs-goodies-el
     - gcc
@@ -43,6 +46,7 @@
     - iftop
     - iotop
     - iptraf
+    - mailutils
     - psgml
     - sysstat
     - vnstat
