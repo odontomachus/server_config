@@ -1,14 +1,22 @@
 - name:  main | pys
+  tags:
+    - phase1
   user: name=pys system=true shell=/bin/bash generate_ssh_key=true
 
 - name:  main | home permissions
-  file: state=directory name=/home/pys mode=0775 group=jonathan
+  tags:
+    - phase1
+  file: state=directory name=/home/pys mode=0775 owner=pys group=jonathan
 
 - name:  main | public_html directory
-  file: state=directory name=/home/pys/public_html mode=0775 group=jonathan
+  tags:
+    - phase1
+  file: state=directory name=/home/pys/public_html mode=0775 owner=pys group=jonathan
 
 - name:  main | projects directory
-  file: state=directory name=/home/pys/projects mode=0775 group=jonathan
+  tags:
+    - phase1
+  file: state=directory name=/home/pys/projects mode=0775 owner=pys group=jonathan
 
 - name: main | virtualenv directory
   tags:

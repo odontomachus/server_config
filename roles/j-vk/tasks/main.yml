@@ -58,3 +58,15 @@
        #version=stable
   sudo: True
   sudo_user: jvk
+
+- name: jvk | nginx config
+  tags:
+    - phase2
+  copy: src=etc/nginx/sites-available/jvk dest=/etc/nginx/sites-available/jvk
+  notify: reload nginx
+
+- name: jvk | nginx config
+  tags:
+    - phase2
+  file: state=link src=/etc/nginx/sites-available/jvk dest=/etc/nginx/sites-enabled/jvk
+  notify: reload nginx
